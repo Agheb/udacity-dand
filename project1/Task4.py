@@ -40,8 +40,8 @@ for row in texts:
     sender.add(row[0])
     outgoing_texts.add(row[1])
 
- 
+
 result = caller - outgoing_calls - sender - outgoing_texts
-print("These numbers could be telemarketers: "
+print("These numbers could be telemarketers: ")
 for t in sorted(result):
     print(t)
