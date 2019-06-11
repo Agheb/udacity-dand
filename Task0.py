@@ -22,7 +22,7 @@ Print messages:
 """
 
 print(
-    f"First record of texts, {texts[0][1]}  texts {texts[0][1]} at time {texts[0][2]}"
+    f"First record of texts, {texts[0][0]}  texts {texts[0][1]} at time {texts[0][2]}"
 )
 
 

@@ -3,12 +3,13 @@ Read file into texts and calls.
 It's ok if you don't understand how to read files.
 """
 import csv
+import re
 
-with open('texts.csv', 'r') as f:
+with open("texts.csv", "r") as f:
     reader = csv.reader(f)
     texts = list(reader)
 
-with open('calls.csv', 'r') as f:
+with open("calls.csv", "r") as f:
     reader = csv.reader(f)
     calls = list(reader)
 
@@ -43,3 +44,38 @@ Print the answer as a part of a message::
 to other fixed lines in Bangalore."
 The percentage should have 2 decimal digits
 """
+
+
+result = []
+
+for row in calls:
+    if "(080)" in row[0]:
+        if not "140" in row[1][:3]:
+            matchAreaCode = re.match(r"\((.*?)\)", row[1])
+            if matchAreaCode:
+                result.append(matchAreaCode.group(1))
+            if row[1][0] in ["7", "8", "9"]:
+                result.append(row[1][:4])
+
+# Remove duplicates in list and sort
+result_a = sorted(list(dict.fromkeys(result)))
+
+print("The numbers called by people in Bangalore have codes:")
+for r in result_a:
+    print(r)
+
+count_fixed = 0
+count_all = 0
+for row in calls:
+    if "(080)" in row[0]:
+        if "(080)" in row[1]:
+            count_fixed += 1
+
+        count_all += 1
+
+
+result_b = 100 * float(count_fixed) / float(count_all)
+print(
+    f"""{round(result_b,2)} percent of calls from fixed lines in Bangalore are calls
+to other fixed lines in Bangalore."""
+)
