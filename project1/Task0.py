@@ -26,7 +26,6 @@ print(
 )
 
 
-last = len(calls) - 1
 print(
-    f"Last record of calls, {calls[last][0]} calls {calls[last][1]} at time {calls[last][2]} , lasting {calls[last][3]} seconds"
+    f"Last record of calls, {calls[-1][0]} calls {calls[-1][1]} at time {calls[-1][2]} , lasting {calls[-1][3]} seconds"
 )
