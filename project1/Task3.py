@@ -76,6 +76,5 @@ for row in calls:
 
 result_b = 100 * float(count_fixed) / float(count_all)
 print(
-    f"""{round(result_b,2)} percent of calls from fixed lines in Bangalore are calls
-to other fixed lines in Bangalore."""
+    f"{round(result_b,2)} percent of calls from fixed lines in Bangalore are calls to other fixed lines in Bangalore."
 )

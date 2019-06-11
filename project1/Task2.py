@@ -26,19 +26,15 @@ for row in calls:
     for col in row[0:2]:
         if col not in result:
             result.update({col: int(row[3])})
-        
+
         else:
-            curr = result[col] +  int(row[3])
-            result.update({col : curr})
+            curr = result[col] + int(row[3])
+            result.update({col: curr})
 
 
-
-max_key = max(result, key = lambda x: result.get(x)) 
-                 
+max_key = max(result, key=lambda x: result.get(x))
 
 
 print(
-    f"""{max_key} phone number spent the longest time, {result[max_key]} seconds, on the phone during 
-September 2016."""
+    f"{max_key} phone number spent the longest time, {result[max_key]} seconds, on the phone during September 2016."
 )
-
