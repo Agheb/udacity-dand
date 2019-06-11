@@ -21,19 +21,15 @@ Print a message:
 """
 ## Turn into sets
 
-distinct_texts = set()
+all_phone_numbers = set()
 for row in texts:
     for elem in row[0:2]:
-        distinct_texts.add(elem)
+        all_phone_numbers.add(elem)
 
 
-distinct_calls = set()
 for row in calls:
     for elem in row[0:2]:
-        distinct_calls.add(elem)
+        all_phone_numbers.add(elem)
 
 
-res = distinct_calls.union(distinct_texts)
-
-
-print(f"""There are {len(res)} different telephone numbers in the records""")
+print(f"There are {len(all_phone_numbers)} different telephone numbers in the records")
