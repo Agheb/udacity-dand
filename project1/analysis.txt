@@ -3,5 +3,5 @@ We are not considering the runtime for reading the files
 Task 0: O(1)
 Task 1: O(n)
 Task 2: O(n)
-Task 3: O(n) # According to the python docs, sort is O(n). Considering this as well into the calculation would result in the same outcome (n + n = 2n = O(n))  
-Task 4: O(n) # According to the python docs, sort is O(n). Considering this as well into the calculation would result in the same outcome (n + n = 2n = O(n))  
+Task 3: O(n log n) # According to the python docs, sort is O(n log n ) 
+Task 4: O(n log n) # According to the python docs, sort is O(n log n )  
