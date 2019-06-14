@@ -1,7 +1,7 @@
 We are not considering the runtime for reading the files 
 
-Task 0: O(1)
-Task 1: O(n)
-Task 2: O(n)
-Task 3: O(n log n) # According to the python docs, sort is O(n log n ) 
-Task 4: O(n log n) # According to the python docs, sort is O(n log n )  
+Task 0: O(1) constant time. we directly access the first and last element of list 
+Task 1: O(n) for-loop. the time to access all the numbers is proportional to the number of numbers in the list  
+Task 2: O(n) time complexity is similar to task1. On top of it, iterating over each element to find max is O(n) too. j
+Task 3: O(n log n) the code iterates over all elements, but we need to consider the the sorted() function for the timecomplexity calculation. According to the python docs, sorted() is O(n log n ) in the worst case 
+Task 4: O(n log n) Using the sorted() takes precedence over the set operations, which is O(n log n) 
