@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-
-from os import listdir
-from os.path import isfile, isdir, join
+import os
 
 
 def find_files(suffix, path):
@@ -22,13 +20,14 @@ def find_files(suffix, path):
     """
 
     def _find_files(suffix, path):
-        for l in listdir(path):
-            new_path = join(path, l)
-            if isfile(new_path) and new_path.endswith(suffix):
-                yield new_path
-            elif isdir(new_path):
-                for item in _find_files(suffix, new_path):
-                    yield item
+        for entry in os.scandir(path):
+            if entry.is_file(follow_symlinks=False) and entry.name.endswith(suffix):
+
+                yield entry.path
+
+            elif entry.is_dir(follow_symlinks=False):
+                for path in _find_files(suffix, entry.path):
+                    yield path
 
     return list(_find_files(suffix, path))
 
