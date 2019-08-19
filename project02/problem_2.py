@@ -20,6 +20,13 @@ def find_files(suffix, path):
     """
 
     def _find_files(suffix, path):
+        """
+        A generator function to find files with file name suffix"
+
+        Args:
+          suffix(str): suffix if the file name to be found
+          path(str): path of the file system
+        """
         for entry in os.scandir(path):
             if entry.is_file(follow_symlinks=False) and entry.name.endswith(suffix):
 
