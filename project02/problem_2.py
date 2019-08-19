@@ -20,20 +20,17 @@ def find_files(suffix, path):
     Returns:
        a list of paths
     """
-    files_w_suff = []
 
-    def _find_files(result_list, suffix, path):
+    def _find_files(suffix, path):
         for l in listdir(path):
             new_path = join(path, l)
             if isfile(new_path) and new_path.endswith(suffix):
-                result_list.append(new_path)
-
+                yield new_path
             elif isdir(new_path):
-                _find_files(result_list, suffix, new_path)
+                for item in _find_files(suffix, new_path):
+                    yield item
 
-    _find_files(files_w_suff, suffix, path)
-
-    return files_w_suff
+    return list(_find_files(suffix, path))
 
 
 print(find_files(".c", "./testdir"))
