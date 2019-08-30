@@ -96,7 +96,6 @@ Block []: 'Genesis Block'
 Hash: [HASH]
 Previous Hash: None
 [DATE]
-
 """
 
 print("TestCase 1: Add another block")
@@ -111,7 +110,7 @@ Previous Hash: [HASH of Genesis Block]
 Block []: 'Genesis Block'
 Hash: [HASH]
 Previous Hash: None
-'Fri Aug 30 14:36:07 2019'
+[DATE]
 """
 print("TestCase 2: Add 10 Blocks")
 
@@ -123,7 +122,7 @@ print(chain)
 """
 Block []: '9'
 Hash: [HASH]
-Previous Hash: [HASH of Genesis Block]
+Previous Hash: [HASH of Block 8]
 [DATE]
 
 --Abbreviated ----
@@ -133,5 +132,4 @@ Block []: 'Genesis Block'
 Hash: [HASH]
 Previous Hash: None
 [DATE]
-
 """
