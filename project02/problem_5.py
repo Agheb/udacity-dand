@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import hashlib
-from time import time, ctime
+from time import time, ctime, sleep
 
 
 class Block:
@@ -13,12 +13,12 @@ class Block:
         self.ref = None
 
     def __repr__(self):
-        return f"""
-                Block []: Data: {repr(self.data)}
-                Hash: {repr(self.hash)}
-                Previous Hash: {repr(self.previous_hash)}
-                {repr(self.timestamp)}
-        """
+        return (
+            f"Block []: {repr(self.data)}\n"
+            f"Hash: {repr(self.hash)}\n"
+            f"Previous Hash: {repr(self.previous_hash)}\n"
+            f"{repr(self.timestamp)}\n"
+        )
 
     @staticmethod
     def _calc_hash(data, timestamp):
@@ -45,10 +45,8 @@ class BlockChain:
             self.add_first_block()
 
     def add_first_block(self):
-        """
-        Adds genesis block(first block) to block chain
-        
-        """
+        # Adds genesis block(first block) to block chain
+
         if self.last is not None:
             print("Blockchain already has its first block")
             return
@@ -90,11 +88,50 @@ class BlockChain:
             return res
 
 
-print("Test Cases:")
+print("TestCase 0: Init Blockchain with Genesis Block by default:")
 chain = BlockChain()
 print(chain)
+"""
+Block []: 'Genesis Block'
+Hash: [HASH]
+Previous Hash: None
+[DATE]
 
-for n in range(3):
+"""
+
+print("TestCase 1: Add another block")
+chain.add_block("Hello World!")
+print(chain)
+"""
+Block []: 'Hello World!'
+Hash: [HASH]
+Previous Hash: [HASH of Genesis Block]
+[DATE]
+
+Block []: 'Genesis Block'
+Hash: [HASH]
+Previous Hash: None
+'Fri Aug 30 14:36:07 2019'
+"""
+print("TestCase 2: Add 10 Blocks")
+
+for n in range(10):
     chain.add_block(str(n))
 
 print(chain)
+
+"""
+Block []: '9'
+Hash: [HASH]
+Previous Hash: [HASH of Genesis Block]
+[DATE]
+
+--Abbreviated ----
+
+
+Block []: 'Genesis Block'
+Hash: [HASH]
+Previous Hash: None
+[DATE]
+
+"""
