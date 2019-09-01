@@ -33,12 +33,9 @@ class LRU_Cache:
             self.cache[key] = node
 
     def __str__(self):
-        s = "---LRU Cache Details---\n"
-        s += "--- Dict ---\n"
-        for k, v in self.cache.items():
-            s += "Key: {} Ref: {}\n".format(k, v)
-        s += "--- DLL ---\n"
+        s = "---LRU Cache ---\n"
         s += str(self.dll)
+        s += "---------------\n"
         return s
 
 
@@ -49,6 +46,9 @@ class Node:
         self.value = value
         self.prev = None
         self.next = None
+
+    def __str__(self):
+        return f"{self.value}"
 
 
 class DLL:
@@ -81,19 +81,19 @@ class DLL:
         This function is used when an element is retrieved from cache with a get call. 
         """
         new_node = self.insertion_at_tail(node.key, node.value)
-        self.remove(node)
+        self.popleft()
         return new_node
 
     # Least recently used node at head
     def popleft(self):
         """Pops an element from head of DLL
 
-        This function is used to get the least recently used element
+        This function is used to remove and return the least recently used element
         """
         if self.head is None:
             return None
         else:
-            if self.head != self.tail:
+            if self.head is not self.tail:
                 node = self.head
                 self.head = self.head.next
                 self.head.prev = None
@@ -102,26 +102,6 @@ class DLL:
                 node = self.head
                 self.head = self.tail = None
                 return node
-
-    def remove(self, node):
-
-        if self.head and self.tail is None:
-            return
-        elif node is self.head:
-            self.head = self.head.next
-            self.head.prev = None
-            return
-        elif node is self.tail:
-            self.tail = self.tail.prev
-            self.tail.next = None
-            return
-
-        else:
-            node_before = node.prev
-            node_after = node.next
-
-            node_before.next = node_after
-            node_after.prev = node_before
 
     def __str__(self):
         node = self.head
@@ -140,16 +120,55 @@ our_cache = LRU_Cache(5)
 our_cache.set(1, "apple")
 our_cache.set(2, "banana")
 our_cache.set(3, "strawberry")
+print(our_cache)
+"""
+---LRU Cache ---
+Key: 1 Val: apple
+Key: 2 Val: banana
+Key: 3 Val: strawberry
+---------------
+"""
+
 our_cache.set(4, "nuts")
+our_cache.set(5, "bogus")
 print(our_cache)
+"""
+Key: 1 Val: apple
+Key: 2 Val: banana
+Key: 3 Val: strawberry
+Key: 4 Val: nuts
+Key: 5 Val: bogus
+"""
 
-print(our_cache.get(1))  # returns 1
-print(our_cache.get(2))  # reurns 2
-print(our_cache.get(9))  # returns -1 because 9 is not present in the cache
+our_cache.get(1)
+our_cache.get(2)
+our_cache.get(3)
+print(our_cache)
+"""
+Key: 4 Val: nuts
+Key: 5 Val: bogus
+Key: 1 Val: apple
+Key: 2 Val: banana
+Key: 3 Val: strawberry
+"""
 
+our_cache.set(6, "jackfruit")
+our_cache.set(7, "oranges")
 print(our_cache)
-our_cache.set(5, 5)
-our_cache.set(6, 6)
+"""
+Key: 1 Val: apple
+Key: 2 Val: banana
+Key: 3 Val: strawberry
+Key: 6 Val: jackfruit
+Key: 7 Val: oranges
+"""
+
+our_cache.set(8, "blueberries")
 print(our_cache)
-print(our_cache.get(3))
-print(our_cache)
+"""
+Key: 2 Val: banana
+Key: 3 Val: strawberry
+Key: 6 Val: jackfruit
+Key: 7 Val: oranges
+Key: 8 Val: blueberries
+"""
