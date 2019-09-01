@@ -21,6 +21,9 @@ class Huffman_Node:
 
 
 def huffman_encoding(data):
+    if data == "":
+        return "0"
+
     # Character frequency in the form of a tuple (priority_number, data)
     freq = [(data.count(e), e) for e in sorted(set(data))]
     root = _build_huffman_tree(freq)
@@ -36,6 +39,9 @@ def huffman_encoding(data):
 def huffman_decoding(data, tree):
     decoded_txt = []
     root = tree
+    if data or tree is None:
+        return 0
+
     for b in data:
         # Visit left children if 0
         if tree.left and b == "0":
@@ -89,6 +95,8 @@ def _get_tree(data):
     Keyword arguments:
     data -- a string of text to encode
     """
+    if data == "":
+        return None
     char_freq = [(data.count(e), e) for e in sorted(set(data))]
     tree = _build_huffman_tree(char_freq)
     return tree
@@ -111,29 +119,58 @@ def _get_codes(root, codes, bin_str=""):
         else:
             _get_codes(root.left, codes, bin_str + "0")
             _get_codes(root.right, codes, bin_str + "1")
+    else:
+        return None
+
+
+def test_encoding(text):
+    print("Original Text:\t\t {}".format(text))
+    print("Size:\t\t\t {}".format(sys.getsizeof(text)))
+
+    encoded_data = huffman_encoding(text)
+    print("Huffman Encoding:\t {}".format(encoded_data))
+    print("Size:\t\t\t {}".format(sys.getsizeof(int(encoded_data, base=2))))
+
+    tree = _get_tree(text)
+    decoded_data = huffman_decoding(encoded_data, tree)
+    print("Decoded Text:\t\t {}".format(decoded_data))
+    print("Size:\t\t\t {}".format(sys.getsizeof(decoded_data)))
+
+    return decoded_data == text
 
 
 if __name__ == "__main__":
 
-    a_great_sentence = "The bird is the word"
+    print(test_encoding("The bird is the word"))
+    """
+    Original Text:  The bird is the word
+    Size: 69
+    Huffman Encoding: 1110011011100101110101001100110010111111000001101110010000111110011001
+    Size: 36
+    Decoded Text: The bird is the word
+    Size: 69
+    True
+    """
 
-    encoded_data = huffman_encoding(a_great_sentence)
+    print(test_encoding("ABBBBABBABABBBAABABABAABABA"))
+    """
+    Original Text: ABBBBABBABABBBAABABABAABABA
+    Size: 76
+    Huffman Encoding: 011110110101110010101001010
+    Size: 28
+    Decoded Text: ABBBBABBABABBBAABABABAABABA
+    Size: 76
+    True
+    """
 
-    print("The size of the data is: {}\n".format(
-        sys.getsizeof(a_great_sentence)))
-    print("The content of the data is: {}\n".format(a_great_sentence))
+    print(test_encoding(""))
+    """
+    Original Text:
+    Size: 49
+    Huffman Encoding: 0
+    Size: 24
+    Decoded Text: 0
+    Size: 24
+    False
+    """
 
-    print(
-        "The size of the encoded data is: {}\n".format(
-            sys.getsizeof(int(encoded_data, base=2))
-        )
-    )
-    print("The content of the encoded data is: {}\n".format(encoded_data))
-
-    tree = _get_tree(a_great_sentence)
-
-    decoded_data = huffman_decoding(encoded_data, tree)
-
-    print("The size of the decoded data is: {}\n".format(
-        sys.getsizeof(decoded_data)))
-    print("The content of the encoded data is: {}\n".format(decoded_data))
