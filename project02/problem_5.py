@@ -58,12 +58,15 @@ class BlockChain:
         Adds block to block chain 
         
         args:
-        data 
+        data - String
         """
-
-        new_block = Block(time(), data, self.last.hash)
-        new_block.ref = self.last
-        self.last = new_block
+        if not data:
+            print("Not valid data to create block")
+            return
+        else:
+            new_block = Block(time(), data, self.last.hash)
+            new_block.ref = self.last
+            self.last = new_block
 
     @staticmethod
     def _create_genesis_block():
@@ -133,3 +136,9 @@ Hash: [HASH]
 Previous Hash: None
 [DATE]
 """
+
+print("Test Case 3: Add Block with empty/null data")
+chain.add_block("")
+# Not valid data to create a block
+chain.add_block(None)
+# Not valid data to create a block

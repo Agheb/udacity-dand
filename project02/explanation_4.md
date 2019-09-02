@@ -9,6 +9,6 @@ The Active Directory problem was implemented by iterating recursively a hierarch
 
 ## Time and Space Complexity
 The time complexity is $O(n)$, where `n` is the number of groups.
-The space complexity is a little bit tricky, but depends on the maximum depth of the recursion tree generated. All in all, it is $O(gm)$, where `g` is the number of groups and `m` is the maximum depth of the recursion tree.
+The space complexity is $O(n)$, where `n` is the number of groups.
 
 

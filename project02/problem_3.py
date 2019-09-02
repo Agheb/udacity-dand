@@ -21,8 +21,9 @@ class Huffman_Node:
 
 
 def huffman_encoding(data):
-    if data == "":
-        return "0"
+
+    if not data:
+        return None
 
     # Character frequency in the form of a tuple (priority_number, data)
     freq = [(data.count(e), e) for e in sorted(set(data))]
@@ -31,7 +32,6 @@ def huffman_encoding(data):
     codes = {}
     _get_codes(root, codes)
 
-    # Encode Data in compressed form
     encoded_data = "".join(codes[n] for n in data)
     return encoded_data
 
@@ -39,8 +39,6 @@ def huffman_encoding(data):
 def huffman_decoding(data, tree):
     decoded_txt = []
     root = tree
-    if data or tree is None:
-        return 0
 
     for b in data:
         # Visit left children if 0
@@ -71,6 +69,8 @@ def _build_huffman_tree(char_freq):
     # If a pair of chars has same weight, use entry_counter as tie breaker
     # https://docs.python.org/3/library/heapq.html#priority-queue-implementation-notes
     entry_count = 0
+
+    # Tree a
     for f, v in sorted(char_freq):
         entry_count += 1
         q.put(Huffman_Node(v, f, entry_count))
@@ -95,8 +95,6 @@ def _get_tree(data):
     Keyword arguments:
     data -- a string of text to encode
     """
-    if data == "":
-        return None
     char_freq = [(data.count(e), e) for e in sorted(set(data))]
     tree = _build_huffman_tree(char_freq)
     return tree
@@ -112,23 +110,33 @@ def _get_codes(root, codes, bin_str=""):
     bin_str -- stores append huffman codes after each
     recursive call(default to "")
     """
-    if root is not None:
-        if root.value is not None:
-            codes[root.value] = bin_str
-            return
-        else:
-            _get_codes(root.left, codes, bin_str + "0")
-            _get_codes(root.right, codes, bin_str + "1")
+    # If value exists then at leaf arrived
+    if root.value:
+        if bin_str == "":
+            bin_str = "0"
+
+        codes[root.value] = bin_str
+
     else:
-        return None
+        _get_codes(root.left, codes, bin_str + "0")
+        _get_codes(root.right, codes, bin_str + "1")
+
+    
 
 
 def test_encoding(text):
+
+    if not text:
+        print("Warning! provided text is of NoneType. Test aborted!")
+        return
+
     print("Original Text:\t\t {}".format(text))
     print("Size:\t\t\t {}".format(sys.getsizeof(text)))
 
     encoded_data = huffman_encoding(text)
+
     print("Huffman Encoding:\t {}".format(encoded_data))
+
     print("Size:\t\t\t {}".format(sys.getsizeof(int(encoded_data, base=2))))
 
     tree = _get_tree(text)
@@ -162,15 +170,20 @@ if __name__ == "__main__":
     Size: 76
     True
     """
+    print(test_encoding("AAAAA"))
+    """
+    Original Text: AAAAA
+    Size: 54
+    Huffman Encoding: 00000
+    Size: 24
+    Decoded Text: AAAAA
+    Size: 54
+    True
+    """
+
 
     print(test_encoding(""))
-    """
-    Original Text:
-    Size: 49
-    Huffman Encoding: 0
-    Size: 24
-    Decoded Text: 0
-    Size: 24
-    False
-    """
+    # Argument is of NoneType. Testing aborted!
 
+    print(test_encoding(0))
+    # Argument is NoneType. Testing aborted!

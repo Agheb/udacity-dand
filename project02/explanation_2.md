@@ -45,7 +45,17 @@ return list(_find_files(suffix,path))
 ```
 
 ## Time & Space Complexity
-The time complexity is $O(N)$ considering that `N` is the total count of all files and directories. It will go through every file and directory only once with the recursive calls. Same for space complexity, so it is $O(N)$ too. 
+The time complexity is $O(N)$, where `N` is the total number of all folders and files in the provided path.
+Please note that we're using a generator for the nested "recursive" calls, so there are no additional costs (more information in the section down below).
+The space complexity is $O(N)$, where `N` is the total number of all folders and files in the provided path.
+
+
+## Sources
+
+[https://stackoverflow.com/a/20531306](https://stackoverflow.com/a/20531306)
+
+> a yield passes its result to the immediate caller, not directly to the ultimate consumer of the result. So, if you have recursion going R levels deep, a chain of yields at each level delivering a result back up the call stack to the ultimate consumer takes O(R) time. It also takes  O(R) time to resume the R levels of recursive call to get back to the lowest level where the first yield occurred.
+
 
 
 

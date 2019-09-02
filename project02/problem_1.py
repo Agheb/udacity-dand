@@ -19,7 +19,14 @@ class LRU_Cache:
 
         If the cache is at capacity remove the oldest item.
         """
+        if self.capacity == 0:
+            print("Can't perform operations on 0 capacity cache")
+            return
+
         if key in self.cache:
+            if self.cache[key].value != value:
+                self.cache[key].value = value
+
             new_node = self.dll.move_to_tail(self.cache[key])
             self.cache[key] = new_node
         else:
@@ -81,8 +88,27 @@ class DLL:
         This function is used when an element is retrieved from cache with a get call. 
         """
         new_node = self.insertion_at_tail(node.key, node.value)
-        self.popleft()
+        self.remove(node)
         return new_node
+
+    def remove(self, node):
+        """Remove a Node from DLL with pointer
+        
+        """
+        if node is self.head:
+            # pop instead if node ref is at head 
+            self.popleft()
+        else:    
+            prev_node = node.prev
+            next_node = node.next
+
+            if node is self.tail:
+                prev_node.next = None
+                next_node.prev = None
+
+            else:
+                prev_node.next = next_node
+                next_node.prev = prev_node
 
     # Least recently used node at head
     def popleft(self):
@@ -172,3 +198,23 @@ Key: 6 Val: jackfruit
 Key: 7 Val: oranges
 Key: 8 Val: blueberries
 """
+
+# Edge Case 1: Init cache capacity of Zero and perform set and get operations
+
+my_cache = LRU_Cache(0)
+my_cache.set(1, "Apple")
+# Can't perform operations on 0 capacity cache
+print(my_cache.get(1))
+# -1
+
+
+# Edge Case : Update value of an existing key
+
+ur_cache = LRU_Cache(2)
+ur_cache.set(1, 1)
+ur_cache.set(2, 2)
+ur_cache.set(1, 10)
+print(ur_cache.get(1))
+# 10
+print(ur_cache.get(2))
+# 2
